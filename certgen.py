@@ -1,19 +1,19 @@
 import subprocess
 
 
-def generate_certificate_with_dns(domain, email, dns_plugin, dns_plugin_options):
+def generate_certificate_with_dns(domain, email, aws_id, aws_key):
     try:
         # Run Certbot command to obtain a certificate using DNS-01 challenge
         subprocess.run([
+            'AWS_ACCESS_KEY_ID=', aws_id,
+            'AWS_SECRET_ACCESS_KEY=', aws_key,
             'certbot', 'certonly',
-            '--server', 'https://acme-v02.api.letsencrypt.org/directory',  # Use Let's Encrypt v2 API
             '--non-interactive',
-            '--preferred-challenges', 'dns',
-            '--email', email,
+            '--dns-route53',
+            '--key-type rsa',
             '--agree-tos',
             '-d', domain,
-            f'--dns-{dns_plugin}',
-            *dns_plugin_options,
+            '-m', email
         ], check=True)
 
         print(f"Certificate for {domain} successfully obtained using DNS-01 challenge.")

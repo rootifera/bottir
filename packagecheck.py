@@ -7,6 +7,7 @@ def is_apt_package_installed(package_name, distro):
         if distro == 'debian' or 'ubuntu':
             result = subprocess.run(['dpkg', '--get-selections'], stdout=subprocess.PIPE, text=True, check=True)
             installed_packages = result.stdout.split('\n')
+        # Run dnf command to list installed packages
         elif distro == 'redhat' or distro == 'centos' or distro == 'fedora':
             result = subprocess.run(['dnf', 'list', 'installed'], stdout=subprocess.PIPE, text=True, check=True)
             installed_packages = result.stdout.split('\n')
