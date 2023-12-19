@@ -20,7 +20,7 @@ def generate_certificate_with_dns(domain, email, is_test=False):
                 '-m', email,
             ], check=True)
 
-            print(f"Certificate for {domain} successfully obtained using DNS-01 challenge.")
+            print(f"A Staging Certificate for {domain} successfully obtained using DNS-01 challenge.")
         else:
             subprocess.run([
                 'certbot', 'certonly',
