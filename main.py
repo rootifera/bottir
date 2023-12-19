@@ -10,8 +10,10 @@ parser.add_argument('-e', '--email')
 parser.add_argument('-d', '--domain')
 parser.add_argument('-k', '--aws-key')
 parser.add_argument('-s', '--aws-secret')
+parser.add_argument('-t', '--test', action=argparse.BooleanOptionalAction)
 args = parser.parse_args()
 
+print(args.test)
 os.environ["AWS_ACCESS_KEY_ID"] = args.aws_key
 os.environ["AWS_SECRET_ACCESS_KEY"] = args.aws_secret
 
@@ -28,5 +30,5 @@ for package in REQUIRED_PACKAGES:
 
 # generate cert
 # Call the function to generate the certificate using DNS-01 challenge
-generate_certificate_with_dns(args.domain, args.email, args.aws_key, args.aws_secret)
+generate_certificate_with_dns(args.domain, args.email, args.test)
 
