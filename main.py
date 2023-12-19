@@ -5,7 +5,7 @@ from packagecheck import is_apt_package_installed
 from certgen import generate_certificate_with_dns
 from pemtopfx import pem_to_pfx, validate_pfx
 
-parser = argparse.ArgumentParser()
+parser = argparse.ArgumentParser(description='Simple tool to generate certificates')
 
 parser.add_argument('-e', '--email')
 parser.add_argument('-d', '--domain')
@@ -15,6 +15,11 @@ parser.add_argument('-t', '--test', action=argparse.BooleanOptionalAction)
 parser.add_argument('-p', '--pfx', action=argparse.BooleanOptionalAction)
 parser.add_argument('-v', '--validate-pfx', action=argparse.BooleanOptionalAction)
 args = parser.parse_args()
+
+if args.email is None or args.domain is None or args.aws_key is None or args.aws_secret is None:
+    raise SystemExit(
+        "Usage: bottir -e mail@domain.com -d sub.domain.com -k awskey -s aws-secret \
+        (optional: --test --pfx --validate-pfx)")
 
 os.environ["AWS_ACCESS_KEY_ID"] = args.aws_key
 os.environ["AWS_SECRET_ACCESS_KEY"] = args.aws_secret
