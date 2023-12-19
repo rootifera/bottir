@@ -3,7 +3,7 @@ import argparse
 import os
 from packagecheck import is_apt_package_installed
 from certgen import generate_certificate_with_dns
-from pemtopfx import pem_to_pfx
+from pemtopfx import pem_to_pfx, validate_pfx
 
 parser = argparse.ArgumentParser()
 
@@ -13,7 +13,7 @@ parser.add_argument('-k', '--aws-key')
 parser.add_argument('-s', '--aws-secret')
 parser.add_argument('-t', '--test', action=argparse.BooleanOptionalAction)
 parser.add_argument('-p', '--pfx', action=argparse.BooleanOptionalAction)
-
+parser.add_argument('-v', '--validate-pfx', action=argparse.BooleanOptionalAction)
 args = parser.parse_args()
 
 os.environ["AWS_ACCESS_KEY_ID"] = args.aws_key
@@ -40,9 +40,13 @@ if args.pfx:
         save_pfx = './certbot/staging/config/live/{}/{}.pfx'.format(args.domain, args.domain)
         pem_to_pfx(cert_path, key_path, save_pfx)
         print("PFX Generated at {}".format(save_pfx))
+        if args.validate_pfx:
+            validate_pfx(save_pfx)
     else:
         cert_path = './certbot/live/config/live/{}/fullchain.pem'.format(args.domain)
         key_path = './certbot/live/config/live/{}/privkey.pem'.format(args.domain)
         save_pfx = './certbot/live/config/live/{}/{}.pfx'.format(args.domain, args.domain)
         pem_to_pfx(cert_path, key_path, save_pfx)
         print("PFX Generated at {}".format(save_pfx))
+        if args.validate_pfx:
+            validate_pfx(save_pfx)
