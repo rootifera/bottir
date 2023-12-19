@@ -1,17 +1,19 @@
 import distro
 import argparse
-import configparser
+import os
 from packagecheck import is_apt_package_installed
 from certgen import generate_certificate_with_dns
 
-
-config = configparser.ConfigParser()
-config.read('aws-credentials.ini', encoding='utf')
 parser = argparse.ArgumentParser()
 
 parser.add_argument('-e', '--email')
 parser.add_argument('-d', '--domain')
+parser.add_argument('-k', '--aws-key')
+parser.add_argument('-s', '--aws-secret')
 args = parser.parse_args()
+
+os.environ["AWS_ACCESS_KEY_ID"] = args.aws_key
+os.environ["AWS_SECRET_ACCESS_KEY"] = args.aws_secret
 
 if not args.email or not args.domain:
     raise SystemExit("Please provide an email and domain and AWS credentials.")
@@ -26,5 +28,5 @@ for package in REQUIRED_PACKAGES:
 
 # generate cert
 # Call the function to generate the certificate using DNS-01 challenge
-generate_certificate_with_dns(args.domain, args.email, config['aws']['id'], config['aws']['key'])
+generate_certificate_with_dns(args.domain, args.email, args.aws_key, args.aws_secret)
 
