@@ -1,7 +1,7 @@
 import distro
 import argparse
 import os
-from packagecheck import is_apt_package_installed
+from packagecheck import is_required_package_installed
 from certgen import generate_certificate_with_dns
 from pemtopfx import pem_to_pfx, validate_pfx
 
@@ -31,7 +31,7 @@ REQUIRED_PACKAGES = ["python3-certbot-dns-route53", "certbot", "openssl"]
 
 # Check packages
 for package in REQUIRED_PACKAGES:
-    if not is_apt_package_installed(package, distro.id()):
+    if not is_required_package_installed(package, distro.id()):
         print("Package '{}' is not installed".format(package))
         quit(1)
 
