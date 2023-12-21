@@ -1,7 +1,7 @@
 import subprocess
 
 
-def is_apt_package_installed(package_name, distro):
+def is_required_package_installed(package_name, distro):
     try:
         # Run dpkg command to list installed packages
         if distro == 'debian' or 'ubuntu':
