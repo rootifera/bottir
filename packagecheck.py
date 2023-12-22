@@ -1,16 +1,19 @@
 import subprocess
+import os.path
 
 
 def is_required_package_installed(package_name, distro):
     try:
         # Run dpkg command to list installed packages
-        if distro == 'debian' or distro == 'ubuntu':
-            result = subprocess.run(['dpkg', '--get-selections'], stdout=subprocess.PIPE, text=True, check=True)
-            installed_packages = result.stdout.split('\n')
+        if os.path.isfile('/usr/bin/dpkg'):
+            if distro == 'debian' or distro == 'ubuntu':
+                result = subprocess.run(['dpkg', '--get-selections'], stdout=subprocess.PIPE, text=True, check=True)
+                installed_packages = result.stdout.split('\n')
         # Run dnf command to list installed packages
-        elif distro == 'redhat' or distro == 'centos' or distro == 'fedora':
-            result = subprocess.run(['dnf', 'list', 'installed'], stdout=subprocess.PIPE, text=True, check=True)
-            installed_packages = result.stdout.split('\n')
+        if os.path.isfile('/usr/bin/dnf'):
+            if distro == 'redhat' or distro == 'centos' or distro == 'fedora':
+                result = subprocess.run(['dnf', 'list', 'installed'], stdout=subprocess.PIPE, text=True, check=True)
+                installed_packages = result.stdout.split('\n')
         else:
             return False
 
