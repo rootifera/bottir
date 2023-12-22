@@ -4,7 +4,7 @@ from packagecheck import is_required_package_installed
 
 
 def test_is_apt_package_installed():
-    assert is_required_package_installed('openssl', 'debian')
+    assert is_required_package_installed('zip', 'debian')
 
 
 def test_is_apt_package_not_installed():
