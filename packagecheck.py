@@ -12,7 +12,7 @@ def is_required_package_installed(package_name, distro):
             result = subprocess.run(['dnf', 'list', 'installed'], stdout=subprocess.PIPE, text=True, check=True)
             installed_packages = result.stdout.split('\n')
         else:
-            return 'Unknown Distro'
+            return False
 
         # Check if the specified package is in the list
         for package in installed_packages:
