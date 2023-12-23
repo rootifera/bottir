@@ -4,7 +4,7 @@ import subprocess
 def is_required_package_installed(package_name, distro):
     try:
         # Run dpkg command to list installed packages
-        if distro == 'debian' or 'ubuntu':
+        if distro == 'debian' or distro == 'ubuntu':
             result = subprocess.run(['dpkg', '--get-selections'], stdout=subprocess.PIPE, text=True, check=True)
             installed_packages = result.stdout.split('\n')
         # Run dnf command to list installed packages
